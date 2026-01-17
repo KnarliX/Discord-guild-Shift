@@ -1,6 +1,7 @@
 import { Client, GatewayIntentBits, REST, Routes } from "discord.js";
 import { config } from "./config/env.js";
 import { Logger } from "./utils/logger.js";
+import { startKeepAlive } from "./utils/httpServer.js";
 import * as readyEvent from "./events/ready.js";
 import * as guildMemberAddEvent from "./events/guildMemberAdd.js";
 import * as interactionCreateEvent from "./events/interactionCreate.js";
@@ -10,53 +11,39 @@ import * as infoCommand from "./commands/info.js";
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMembers, // Critical for tracking joins
+    GatewayIntentBits.GuildMembers,
   ],
 });
 
-// 2. Register Events Manually (Safe & Strict)
+// 2. Start Keep-Alive HTTP Server
+// Useful for uptime monitors (like Cron-job.org or UptimeRobot)
+// If you don't want an HTTP server, just comment out or remove the next line.
+startKeepAlive();
+
+// 3. Register Events Manually (Safe & Strict)
 client.once(readyEvent.name, (c) => readyEvent.execute(c));
 client.on(guildMemberAddEvent.name, (m) => guildMemberAddEvent.execute(m));
 client.on(interactionCreateEvent.name, (i) => interactionCreateEvent.execute(i));
 
-// 3. Register Slash Commands (Auto-register on start)
-async function registerCommands() {
-  const commands = [infoCommand.data.toJSON()];
-  const rest = new REST({ version: '10' }).setToken(config.TOKEN);
-
-  try {
-    Logger.console.info("Refreshing application (/) commands...");
-
-    // Registers globally (updates can take 1 hour)
-    // For instant updates during dev, use applicationGuildCommands
-    await rest.put(
-      Routes.applicationCommands(client.user?.id || ""), // Takes ID after login, handled below technically but better separate usually.
-      // Note: We need client ID before login strictly speaking, but inside start flow:
-      { body: commands }
-    );
-
-    // NOTE: To make this safer, we usually register after login or use a known Client ID. 
-    // Since we are inside index, we will rely on the token for REST, 
-    // but for Routes.applicationCommands we need the App ID. 
-    // Let's attach this to the ready event logic internally or just fetch it.
-  } catch (error) {
-    Logger.console.error(`Failed to register commands: ${error}`);
-  }
-}
-
-// 4. Login
+// 4. Login & Register Commands
 (async () => {
   try {
+    // A. Login to Discord
     await client.login(config.TOKEN);
 
-    // Register commands after login to ensure we have the Client ID
-    const rest = new REST().setToken(config.TOKEN);
+    // B. Register Slash Commands (Only after login to ensure Client ID is available)
     if (client.user) {
+        const rest = new REST().setToken(config.TOKEN);
+        const commands = [infoCommand.data.toJSON()];
+
+        Logger.console.info("Refreshing application (/) commands...");
+
         await rest.put(
             Routes.applicationCommands(client.user.id),
-            { body: [infoCommand.data.toJSON()] }
+            { body: commands }
         );
-        Logger.console.info("Commands registered successfully.");
+
+        Logger.console.info("Slash commands registered successfully.");
     }
 
   } catch (error) {
