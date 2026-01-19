@@ -20,16 +20,16 @@ export async function execute(interaction: ChatInputCommandInteraction) {
   const uptimeMinutes = Math.floor(uptimeSeconds / 60);
   const uptimeHours = Math.floor(uptimeMinutes / 60);
   const uptimeString = `${uptimeHours}h ${uptimeMinutes % 60}m ${uptimeSeconds % 60}s`;
-  const repoUrl = `https://github.com/KnarliX/discord-guild-shift`;
+  const repoUrl = `https://gh-perma.pages.dev?id=172272341&path=Discord-guild-Shift`;
 
   const embed = new EmbedBuilder()
-    .setColor(0x0099ff) // Blue
+    .setColor(0x70a5ff) // Light Blue
     .setTitle("Discord Guild Shift Bot")
     .setURL(repoUrl)
     .setDescription("Open source automated migration system.")
     .setThumbnail("https://avatars.githubusercontent.com/u/172272341?v=4")
     .addFields(
-      { name: "Developer", value: "Rajnish", inline: true },
+      { name: "Developer", value: "[Rajnish Mehta](https://gh-perma.pages.dev/?id=172272341)", inline: true },
       { name: "Ping", value: `${ping}ms`, inline: true },
       { name: "Uptime", value: uptimeString, inline: true }
     )
