@@ -39,7 +39,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
       .setLabel("GitHub Repository")
-      .setEmoji('1462171341238046885')
+      .setEmoji('1462203890589110374')
       .setStyle(ButtonStyle.Link)
       .setURL(repoUrl)
   );
