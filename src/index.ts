@@ -1,13 +1,17 @@
-import { Client, GatewayIntentBits, REST, Routes } from "discord.js";
+import { Client, Collection, GatewayIntentBits, REST, Routes } from "discord.js";
 import { config } from "./config/env.js";
 import { Logger } from "./utils/logger.js";
 import { startKeepAlive } from "./utils/httpServer.js";
+
+// Events Imports
 import * as readyEvent from "./events/ready.js";
 import * as guildMemberAddEvent from "./events/guildMemberAdd.js";
 import * as interactionCreateEvent from "./events/interactionCreate.js";
+
+// Commands Imports
 import * as infoCommand from "./commands/info.js";
 
-// 1. Initialize Client
+// Initialize Client
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -15,35 +19,38 @@ const client = new Client({
   ],
 });
 
-// 2. Start Keep-Alive HTTP Server
+(client as any).commands = new Collection();
+
+(client as any).commands.set(infoCommand.data.name, infoCommand);
+
+// Start Keep-Alive HTTP Server
 // Useful for uptime monitors (like Cron-job.org or UptimeRobot)
 // If you don't want an HTTP server, just comment out or remove the next line.
 startKeepAlive();
 
-// 3. Register Events Manually (Safe & Strict)
 client.once(readyEvent.name, (c) => readyEvent.execute(c));
 client.on(guildMemberAddEvent.name, (m) => guildMemberAddEvent.execute(m));
 client.on(interactionCreateEvent.name, (i) => interactionCreateEvent.execute(i));
 
-// 4. Login & Register Commands
 (async () => {
   try {
-    // A. Login to Discord
     await client.login(config.TOKEN);
 
-    // B. Register Slash Commands (Only after login to ensure Client ID is available)
     if (client.user) {
-        const rest = new REST().setToken(config.TOKEN);
-        const commands = [infoCommand.data.toJSON()];
+      const rest = new REST().setToken(config.TOKEN);
 
-        Logger.console.info("Refreshing application (/) commands...");
+      const commandsData = [
+        infoCommand.data.toJSON()
+      ];
 
-        await rest.put(
-            Routes.applicationCommands(client.user.id),
-            { body: commands }
-        );
+      Logger.console.info("Refreshing application (/) commands...");
 
-        Logger.console.info("Slash commands registered successfully.");
+      await rest.put(
+        Routes.applicationCommands(client.user.id),
+        { body: commandsData }
+      );
+
+      Logger.console.info("Slash commands registered successfully.");
     }
 
   } catch (error) {
