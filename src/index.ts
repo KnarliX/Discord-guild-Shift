@@ -26,7 +26,7 @@ const client = new Client({
 // Start Keep-Alive HTTP Server
 // Useful for uptime monitors (like Cron-job.org or UptimeRobot)
 // If you don't want an HTTP server, just comment out or remove the next line.
-startKeepAlive();
+startKeepAlive(client);
 
 client.once(readyEvent.name, (c) => readyEvent.execute(c));
 client.on(guildMemberAddEvent.name, (m) => guildMemberAddEvent.execute(m));
