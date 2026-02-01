@@ -3,7 +3,7 @@ import { Logger } from "./logger.js";
 import { Client } from "discord.js";
 
 /**
- * Starts a lightweight HTTP server to keep the bot alive with cornjob on platforms like Render.
+ * Starts a lightweight HTTP server to keep the bot alive with cronjob on platforms like Render.
  * Responds with "online" if bot is ready, otherwise returns an error.
  */
 export function startKeepAlive(client: Client) {
