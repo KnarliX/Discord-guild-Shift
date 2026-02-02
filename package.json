@@ -5,7 +5,7 @@
   "main": ".build/index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "build": "pnpm install --frozen-lockfile && tsc",
     "start": "node ./.build/index.js",
     "dev": "tsc && node ./.build/index.js"
   },
