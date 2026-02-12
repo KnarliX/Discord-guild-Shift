@@ -19,8 +19,8 @@ importers:
         version: 4.3.6
     devDependencies:
       '@types/node':
-        specifier: ^20.19.32
-        version: 20.19.32
+        specifier: ^20.19.33
+        version: 20.19.33
       rimraf:
         specifier: ^6.1.2
         version: 6.1.2
@@ -78,8 +78,8 @@ packages:
     resolution: {integrity: sha512-jjmJywLAFoWeBi1W7994zZyiNWPIiqRRNAmSERxyg93xRGzNYvGjlZ0gR6x0F4gPRi2+0O6S71kOZYyr3cxaIQ==}
     engines: {node: '>=v14.0.0', npm: '>=7.0.0'}
 
-  '@types/node@20.19.32':
-    resolution: {integrity: sha512-Ez8QE4DMfhjjTsES9K2dwfV258qBui7qxUsoaixZDiTzbde4U12e1pXGNu/ECsUIOi5/zoCxAQxIhQnaUQ2VvA==}
+  '@types/node@20.19.33':
+    resolution: {integrity: sha512-Rs1bVAIdBs5gbTIKza/tgpMuG1k3U/UMJLWecIMxNdJFDMzcM5LOiLVRYh3PilWEYDIeUDv7bpiHPLPsbydGcw==}
 
   '@types/ws@8.18.1':
     resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
@@ -238,13 +238,13 @@ snapshots:
 
   '@sapphire/snowflake@3.5.3': {}
 
-  '@types/node@20.19.32':
+  '@types/node@20.19.33':
     dependencies:
       undici-types: 6.21.0
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 20.19.32
+      '@types/node': 20.19.33
 
   '@vladfrangu/async_event_emitter@2.4.7': {}
 
