@@ -7,7 +7,11 @@
   "scripts": {
     "build": "pnpm install --frozen-lockfile && tsc",
     "start": "node ./.build/index.js",
-    "dev": "tsc && node ./.build/index.js"
+    "dev": "tsc && node ./.build/index.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage"
   },
   "keywords": [
     "discord",
@@ -28,7 +32,9 @@
   },
   "devDependencies": {
     "@types/node": "^20.19.33",
+    "@vitest/ui": "^4.0.18",
     "rimraf": "^6.1.2",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
   }
 }
