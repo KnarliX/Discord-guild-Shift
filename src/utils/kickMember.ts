@@ -1,7 +1,7 @@
 import { GuildMember } from "discord.js";
 import { Logger } from "./logger.js";
 
-export async function kickMemberFromOldGuild(oldMember: GuildMember) {
+export async function kickMemberFromOldGuild(oldMember: GuildMember, userTag: string) {
   const userTag = oldMember.user.tag;
 
   try {
