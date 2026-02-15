@@ -52,9 +52,9 @@ export async function execute(member: GuildMember) {
 
     // Parallel execution (roles + kick together)
     const kickPromise =
-      config.KICK_FROM_OLD && oldMember
-        ? kickMemberFromOldGuild(oldMember, member.user.tag)
-        : Promise.resolve();
+  config.KICK_FROM_OLD && oldMember
+    ? kickMemberFromOldGuild(oldMember)
+    : Promise.resolve();
 
     await Promise.all([rolePromise, kickPromise]);
 
