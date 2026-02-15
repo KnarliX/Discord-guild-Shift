@@ -7,7 +7,7 @@ import { Client } from "discord.js";
  * Responds with "online" if bot is ready, otherwise returns an error.
  */
 export function startKeepAlive(client: Client) {
-  const port = process.env.PORT || 5000;
+  const port = Number(process.env.PORT) || 5000;
 
   const server = createServer((req, res) => {
     if (client.isReady()) {
@@ -19,7 +19,7 @@ export function startKeepAlive(client: Client) {
     res.end();
   });
 
-  server.listen(port, () => {
+  server.listen(port, "0.0.0.0", () => {
     Logger.console.info(`Keep-Alive HTTP Server is running on port ${port}`);
   });
 
